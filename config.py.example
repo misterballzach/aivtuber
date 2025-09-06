@@ -1,0 +1,13 @@
+# Rename this file to config.py and fill in your credentials.
+
+# Gemini API Key
+GEMINI_API_KEY = "YOUR_GEMINI_API_KEY"
+
+# Twitch Bot Credentials
+TWITCH_TOKEN = "oauth:your_twitch_oauth_token"  # Get this from https://twitchapps.com/tmi/
+TWITCH_NICKNAME = "your_bot_twitch_username"
+TWITCH_CHANNEL = "your_twitch_channel_to_join" # The channel you want the bot to be in
+
+# OSC Configuration
+OSC_IP = "127.0.0.1"
+OSC_PORT = 9000

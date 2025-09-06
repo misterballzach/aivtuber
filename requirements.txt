@@ -1,4 +1,5 @@
-requests
 gTTS
 pydub
 python-osc
+twitchAPI
+aiohttp
