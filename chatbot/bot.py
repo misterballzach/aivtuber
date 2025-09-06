@@ -2,6 +2,7 @@ import os
 import requests
 import json
 from tts.tts_engine import TTSEngine
+from animation.animator import Animator
 
 class ChatBot:
     def __init__(self, api_key):
@@ -48,6 +49,7 @@ if __name__ == '__main__':
     else:
         bot = ChatBot(api_key=api_key)
         tts_engine = TTSEngine()
+        animator = Animator()
         print("Chatbot initialized. Type 'quit' to exit.")
         while True:
             user_input = input("You: ")
@@ -56,4 +58,6 @@ if __name__ == '__main__':
             response = bot.send_message(user_input)
             print(f"Bot: {response}")
             audio_stream = tts_engine.text_to_audio_stream(response)
+            animator.trigger_animation("talking_start") # Placeholder for starting talking animation
             tts_engine.play_audio_stream(audio_stream)
+            animator.trigger_animation("talking_end") # Placeholder for ending talking animation
