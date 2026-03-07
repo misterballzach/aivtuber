@@ -58,6 +58,6 @@ if __name__ == '__main__':
             response = bot.send_message(user_input)
             print(f"Bot: {response}")
             audio_stream = tts_engine.text_to_audio_stream(response)
-            animator.trigger_animation("talking_start") # Placeholder for starting talking animation
+            animator.trigger_animation("talking") # Trigger starting talking animation
             tts_engine.play_audio_stream(audio_stream)
-            animator.trigger_animation("talking_end") # Placeholder for ending talking animation
+            animator.stop_animation("talking") # Trigger ending talking animation
