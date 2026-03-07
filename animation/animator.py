@@ -29,6 +29,13 @@ class Animator:
         # time.sleep(0.1)
         # self.client.send_message(f"/vrc/animation/{animation_name}", 0)
 
+    def stop_animation(self, animation_name: str):
+        """
+        Stops a named animation by sending a 0.
+        """
+        print(f"Sending OSC message: /vrc/animation/{animation_name} 0")
+        self.client.send_message(f"/vrc/animation/{animation_name}", 0)
+
 if __name__ == '__main__':
     # Example usage:
     animator = Animator()
