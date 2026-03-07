@@ -1,6 +1,8 @@
 import os
 import requests
 import json
+import threading
+import time
 from tts.tts_engine import TTSEngine
 from animation.animator import Animator
 
@@ -51,6 +53,14 @@ if __name__ == '__main__':
         tts_engine = TTSEngine()
         animator = Animator()
         print("Chatbot initialized. Type 'quit' to exit.")
+
+        def animate_talking(stop_event):
+            while not stop_event.is_set():
+                animator.send_mouth_open(0.5)
+                time.sleep(0.1)
+                animator.send_mouth_open(0.0)
+                time.sleep(0.1)
+
         while True:
             user_input = input("You: ")
             if user_input.lower() == 'quit':
@@ -58,6 +68,17 @@ if __name__ == '__main__':
             response = bot.send_message(user_input)
             print(f"Bot: {response}")
             audio_stream = tts_engine.text_to_audio_stream(response)
-            animator.trigger_animation("talking_start") # Placeholder for starting talking animation
-            tts_engine.play_audio_stream(audio_stream)
-            animator.trigger_animation("talking_end") # Placeholder for ending talking animation
+
+            # Start talking animation
+            stop_talking_event = threading.Event()
+            animation_thread = threading.Thread(target=animate_talking, args=(stop_talking_event,), daemon=True)
+            animation_thread.start()
+
+            try:
+                # Play audio (blocking)
+                tts_engine.play_audio_stream(audio_stream)
+            finally:
+                # Stop talking animation
+                stop_talking_event.set()
+                animation_thread.join()
+                animator.send_mouth_open(0.0)
