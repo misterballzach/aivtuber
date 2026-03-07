@@ -41,11 +41,11 @@ class ChatBot:
             return f"Error parsing response: {e}"
 
 if __name__ == '__main__':
-    # IMPORTANT: Replace "YOUR_API_KEY" with your actual Google AI API key.
-    api_key = "YOUR_API_KEY"
+    # IMPORTANT: Set the GOOGLE_API_KEY environment variable with your actual Google AI API key.
+    api_key = os.environ.get("GOOGLE_API_KEY")
 
-    if api_key == "YOUR_API_KEY":
-        print("Please replace 'YOUR_API_KEY' with your actual Google AI API key.")
+    if not api_key:
+        print("Please set the 'GOOGLE_API_KEY' environment variable with your actual Google AI API key.")
     else:
         bot = ChatBot(api_key=api_key)
         tts_engine = TTSEngine()
