@@ -31,9 +31,7 @@ class ChatBot:
             response = requests.post(self.api_url, headers=headers, data=json.dumps(data))
             response.raise_for_status()  # Raise an exception for bad status codes
             response_json = response.json()
-            # Extract the text from the response.
-            # The actual path might be different, you may need to inspect the response to find the correct path.
-            # Based on the Gemini API documentation, the response should have a 'candidates' field.
+            # Extract the text from the response based on the Gemini API documentation.
             return response_json['candidates'][0]['content']['parts'][0]['text']
         except requests.exceptions.RequestException as e:
             return f"Error: {e}"
