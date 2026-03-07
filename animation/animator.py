@@ -1,3 +1,4 @@
+import threading
 from pythonosc import udp_client
 
 class Animator:
@@ -16,18 +17,21 @@ class Animator:
         print(f"Sending OSC message: /vrc/blendshape/mouth_open {value}")
         self.client.send_message("/vrc/blendshape/mouth_open", value)
 
-    def trigger_animation(self, animation_name: str):
+    def trigger_animation(self, animation_name: str, reset_trigger: bool = True, reset_delay: float = 0.1):
         """
         Triggers a named animation.
+        Optionally resets the trigger after a delay, which is common practice.
         """
         print(f"Sending OSC message: /vrc/animation/{animation_name} 1")
         self.client.send_message(f"/vrc/animation/{animation_name}", 1)
-        # We send a 0 shortly after to reset the trigger, which is common practice
-        # This part might need to be handled differently depending on the Unity setup
-        # For now, we'll just send the trigger
-        # import time
-        # time.sleep(0.1)
-        # self.client.send_message(f"/vrc/animation/{animation_name}", 0)
+
+        if reset_trigger:
+            def reset():
+                print(f"Sending OSC message: /vrc/animation/{animation_name} 0 (reset)")
+                self.client.send_message(f"/vrc/animation/{animation_name}", 0)
+
+            timer = threading.Timer(reset_delay, reset)
+            timer.start()
 
 if __name__ == '__main__':
     # Example usage:
